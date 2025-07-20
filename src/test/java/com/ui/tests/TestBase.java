@@ -1,6 +1,7 @@
 package com.ui.tests;
 
 import com.ui.constants.Env;
+import com.ui.pages.HomePage;
 import com.utils.TestUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +15,7 @@ import org.testng.annotations.Parameters;
 public abstract class TestBase {
     protected WebDriver driver;
     protected Env env;
+    protected HomePage homePage;
 
     @Parameters({"browser", "env"})
     @BeforeMethod(alwaysRun = true)
@@ -28,13 +30,14 @@ public abstract class TestBase {
         }
         driver.get(TestUtils.getValueFromConfigFile(env, "BASE_URL"));
         driver.manage().window().maximize();
+        homePage = new HomePage(driver);
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
         try {
             if (driver != null) {
-                Thread.sleep(2000);
+                Thread.sleep(5000);
                 driver.quit();
             }
         } catch (InterruptedException ignore) {
