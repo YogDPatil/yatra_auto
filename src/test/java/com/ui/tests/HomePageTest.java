@@ -10,6 +10,6 @@ public final class HomePageTest extends TestBase {
     @Test
     public void openApp() {
         homePage = new HomePage(driver);
-        homePage.login();
+        homePage.login(env);
     }
 }

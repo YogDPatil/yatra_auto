@@ -1,6 +1,8 @@
 package com.ui.pages;
 
+import com.ui.constants.Env;
 import com.utils.BrowserUtils;
+import com.utils.TestUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
@@ -20,10 +22,10 @@ public final class HomePage extends BrowserUtils {
         this.driver = driver;
     }
 
-    public void login() {
-        enterText(EMAIL_FIELD_LOCATOR, "yogeshpatil.om23@gmail.com");
+    public void login(Env env) {
+        enterText(EMAIL_FIELD_LOCATOR, TestUtils.getValueFromConfigFile(env, "EMAIL"));
         clickOn(LOGIN_BUTTON_LOCATOR);
-        enterText(PASS_FIELD_LOCATOR, "Testing@123");
+        enterText(PASS_FIELD_LOCATOR, TestUtils.getValueFromConfigFile(env, "PASS"));
         clickOn(LOGIN_BUTTON_LOCATOR);
     }
 }

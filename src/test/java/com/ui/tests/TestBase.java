@@ -1,5 +1,7 @@
 package com.ui.tests;
 
+import com.ui.constants.Env;
+import com.utils.TestUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,10 +13,12 @@ import org.testng.annotations.Parameters;
 
 public abstract class TestBase {
     protected WebDriver driver;
+    protected Env env;
 
-    @Parameters("browser")
+    @Parameters({"browser", "env"})
     @BeforeMethod(alwaysRun = true)
-    public void initialiseDriver(@Optional("chrome") String browser) {
+    public void initialiseDriver(@Optional("chrome") String browser, @Optional("qa") String environment) {
+        env = Env.valueOf(environment.toUpperCase());
         if (browser.equalsIgnoreCase("chrome")) {
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver();
@@ -22,7 +26,7 @@ public abstract class TestBase {
             WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver();
         }
-        driver.get("https://www.yatra.com/");
+        driver.get(TestUtils.getValueFromConfigFile(env, "BASE_URL"));
         driver.manage().window().maximize();
     }
 
