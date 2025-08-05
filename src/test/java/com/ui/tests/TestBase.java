@@ -6,6 +6,7 @@ import com.utils.TestUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -21,17 +22,18 @@ public abstract class TestBase {
     @Parameters({"browser", "env"})
     @BeforeMethod(alwaysRun = true)
     public void initialiseDriver(@Optional("chrome") String browser, @Optional("qa") String environment) {
-        env = Env.valueOf(environment.toUpperCase());
-        if (browser.equalsIgnoreCase("chrome")) {
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
-        } else if (browser.equalsIgnoreCase("firefox")) {
-            WebDriverManager.firefoxdriver().setup();
-            driver = new FirefoxDriver();
+        try {
+            env = Env.valueOf(environment.toUpperCase());
+            boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
+            boolean isRemote = Boolean.parseBoolean(System.getProperty("remote", "false"));
+            DriverFactory.setDriver(browser, env, isRemote, headless);
+            driver = DriverFactory.getDriver();
+            driver.get(TestUtils.getValueFromConfigFile(env, "BASE_URL"));
+            driver.manage().window().maximize();
+            homePage = new HomePage(driver);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        driver.get(TestUtils.getValueFromConfigFile(env, "BASE_URL"));
-        driver.manage().window().maximize();
-        homePage = new HomePage(driver);
     }
 
     @AfterMethod(alwaysRun = true)
