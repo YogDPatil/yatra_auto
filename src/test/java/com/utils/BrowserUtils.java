@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
-public abstract class BrowserUtils {
+public class BrowserUtils {
     private WebDriver driver;
     private WebDriverWait wait;
 
@@ -30,7 +30,6 @@ public abstract class BrowserUtils {
     public void clickOnEleFromListOfEle(By locator, String eleText) {
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator)).stream().filter(ele -> ele.getText().contains(eleText)).findFirst().ifPresent(ele -> ele.click());
     }
-
 
     public List<WebElement> getElementList(By locator) {
         return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
