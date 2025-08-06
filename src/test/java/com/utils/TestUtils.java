@@ -1,5 +1,6 @@
 package com.utils;
 
+import com.constants.ConfigKey;
 import com.ui.constants.Env;
 import org.openqa.selenium.WebDriver;
 
@@ -15,14 +16,15 @@ public class TestUtils {
         this.driver = driver;
     }
 
-    public static String getValueFromConfigFile(Env env, String key) {
+    public static String getValueFromConfigFile(Env env, ConfigKey key) {
         FileInputStream fis;
         Properties properties;
+        String configKey = String.valueOf(key);
         try {
             fis = new FileInputStream(new File(System.getProperty("user.dir") + "/src/test/resources/config/" + env.toString().toLowerCase() + "_config.properties"));
             properties = new Properties();
             properties.load(fis);
-            return properties.getProperty(key);
+            return properties.getProperty(configKey);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

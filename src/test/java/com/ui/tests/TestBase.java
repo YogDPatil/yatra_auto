@@ -1,5 +1,6 @@
 package com.ui.tests;
 
+import com.constants.ConfigKey;
 import com.ui.constants.Env;
 import com.ui.pages.HomePage;
 import com.utils.TestUtils;
@@ -13,6 +14,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
+import java.lang.reflect.Method;
+
 public abstract class TestBase {
     protected WebDriver driver;
     protected Env env;
@@ -21,14 +24,14 @@ public abstract class TestBase {
 
     @Parameters({"browser", "env"})
     @BeforeMethod(alwaysRun = true)
-    public void initialiseDriver(@Optional("chrome") String browser, @Optional("qa") String environment) {
+    public void initialiseDriver(@Optional("chrome") String browser, @Optional("qa") String environment, Method method) {
         try {
             env = Env.valueOf(environment.toUpperCase());
             boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
             boolean isRemote = Boolean.parseBoolean(System.getProperty("remote", "false"));
-            DriverFactory.setDriver(browser, env, isRemote, headless);
+            DriverFactory.setDriver(browser, env, isRemote, headless, method);
             driver = DriverFactory.getDriver();
-            driver.get(TestUtils.getValueFromConfigFile(env, "BASE_URL"));
+            driver.get(TestUtils.getValueFromConfigFile(env, ConfigKey.BASE_URL));
             driver.manage().window().maximize();
             homePage = new HomePage(driver);
         } catch (Exception e) {
