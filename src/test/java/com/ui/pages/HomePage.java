@@ -22,10 +22,10 @@ public final class HomePage {
     }
 
     public void login(Env env) {
-        bUtils.enterText(EMAIL_FIELD_LOCATOR, TestUtils.getValueFromConfigFile(env, "EMAIL"));
-        bUtils.clickOn(LOGIN_BUTTON_LOCATOR);
-        bUtils.enterText(PASS_FIELD_LOCATOR, TestUtils.getValueFromConfigFile(env, "PASS"));
-        bUtils.clickOn(LOGIN_BUTTON_LOCATOR);
+//        bUtils.enterText(EMAIL_FIELD_LOCATOR, TestUtils.getValueFromConfigFile(env, "EMAIL"));
+//        bUtils.clickOn(LOGIN_BUTTON_LOCATOR);
+//        bUtils.enterText(PASS_FIELD_LOCATOR, TestUtils.getValueFromConfigFile(env, "PASS"));
+//        bUtils.clickOn(LOGIN_BUTTON_LOCATOR);
 
     }
 

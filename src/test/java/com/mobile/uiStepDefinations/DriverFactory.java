@@ -1,4 +1,4 @@
-package com.mobile.tests;
+package com.mobile.uiStepDefinations;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -8,7 +8,7 @@ import java.net.URI;
 
 public class DriverFactory {
     private static DriverFactory instance;
-    private static ThreadLocal<AppiumDriver> thlcApmDriver = new ThreadLocal<>();
+    private static ThreadLocal<AndroidDriver> thlcApmDriver = new ThreadLocal<>();
 
     private DriverFactory() {
     }
@@ -22,13 +22,15 @@ public class DriverFactory {
 
     public static void setUpAppiumDriver() {
         try {
-            UiAutomator2Options opt = new UiAutomator2Options();
-            opt.setPlatformName("android");
-            opt.setAutomationName("UiAutomator2");
-            opt.setApp(System.getProperty("user.dir") + "/src/test/resources/mobileApp/meesho.apk");
-            opt.setDeviceName("Pixel 9");
+            if (getDriver() == null) {
+                UiAutomator2Options opt = new UiAutomator2Options();
+                opt.setPlatformName("android");
+                opt.setAutomationName("UiAutomator2");
+                opt.setApp(System.getProperty("user.dir") + "/src/test/resources/mobileApp/meesho.apk");
+                opt.setDeviceName("Pixel 9");
 //            appiumDriver = new AndroidDriver(new URI("http://127.0.0.1:4723/").toURL(), opt);
-            thlcApmDriver.set(new AndroidDriver(new URI("http://127.0.0.1:4723/").toURL(), opt));
+                thlcApmDriver.set(new AndroidDriver(new URI("http://127.0.0.1:4723/").toURL(), opt));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,7 +46,7 @@ public class DriverFactory {
         }
     }
 
-    public void temp(){
+    public void temp() {
         instance = new DriverFactory();
     }
 
